@@ -1,38 +1,34 @@
-for tc in range(1, int(input())+1):
-    P, Pa, Pb = map(int, input().split())
-    a, b, c = 0, 0, 0
-    l, r = 0, P
-    c = (l + r) // 2
-    while c != Pa:
-        print(c)
-        if c < Pa:
-            l = c
-            print('l={}, c={}'.format(l, c))
-            print(type(l), type(c))
-            a += 1
-        elif c < Pa:
-            r = c
-            a += 1
-        elif c == Pa:
+# 10개 중 1개의 오답으로 인해 오래 걸린 문제
+# 책이 홀수이면 l = 1, 짝수이면 l = 0을 해줬던게 문제
+# 엣지 케이스는 10 3 2
+def search(entire, target):
+    l = 1
+    r = middle = entire
+    cnt = 0
+    while True:
+        middle = (l + r) // 2
+        if target > middle:
+            l = middle
+            cnt += 1
+        elif target < middle:
+            r = middle
+            cnt += 1
+        elif target == middle:
             break
-        c = (l + r) // 2
+        else:
+            cnt = 0
+            break
+    return cnt
 
-        print(l, r, l + r - 1)
-    l, r = 0, P
-    c = (l + r) // 2
-    while c != Pb:
-        if c < Pb:
-            l = c
-            b += 1
-        elif c < Pb:
-            r = c
-            b += 1
-        elif c == Pb:
-            break
-        c = (l + r) // 2
-    if a > b:
+
+for tc in range(1, int(input()) + 1):
+    P, Pa, Pb = map(int, input().split())
+    if Pa == Pb:
+        print('#{} {}'.format(tc, 0))
+        break
+    if search(P, Pa) > search(P, Pb):
         print('#{} {}'.format(tc, 'B'))
-    elif a < b:
+    elif search(P, Pa) < search(P, Pb):
         print('#{} {}'.format(tc, 'A'))
     else:
         print('#{} {}'.format(tc, 0))
