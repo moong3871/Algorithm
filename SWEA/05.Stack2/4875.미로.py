@@ -7,24 +7,24 @@ def check(st, ed):
     global res
     sr, sc = st
     er, ec = ed
-    if maze[sr][sc] == 3:
+    if st == ed:
         res = 1
         return
-    maze[sr][sc] = -1
-
+    visited[sr][sc] = 1
     for mode in range(4):
         nr = sr + dr[mode]
         nc = sc + dc[mode]
         if nr < 0 or nc < 0 or nr >= N or nc >= N:
             continue
-        if maze[nr][nc] == 0:
-            maze[nr][nc] = -1
-            check(nr, nc)
+        if maze[nr][nc] != '1' and visited[nr][nc] != 1:
+            visited[nr][nc] = 1
+            check((nr, nc), ed)
 
 
 for tc in range(1, int(input()) + 1):
     N = int(input())
     maze = [input() for _ in range(N)]
+    visited = [[0] * N for _ in range(N)]
     res = 0
     for i in range(N):
         if '3' in maze[i]:
